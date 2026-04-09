@@ -38,10 +38,14 @@ def extract_text(pdf_path):
     """提取 PDF 文本"""
     reader = PdfReader(str(pdf_path))
     texts = []
-    for page in reader.pages:
+    total_pages = len(reader.pages)
+
+    for i, page in enumerate(reader.pages, 1):
+        print(f"  处理页 {i}/{total_pages}", end="\r")
         text = page.extract_text()
         if text:
             texts.append(text)
+    print()  # 换行
     return " ".join(texts)
 
 def count_words(text, min_length=1, remove_stopwords=True):
